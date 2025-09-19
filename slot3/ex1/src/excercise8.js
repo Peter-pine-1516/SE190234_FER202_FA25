@@ -11,13 +11,9 @@ const stats = ages.reduce(
     return acc;
   },
   {
-    total: 0,
-    min: Infinity,
-    max: -Infinity,
-    buckets: { teen: 0, adult: 0 }
+    total: 0, min: Infinity, max: -Infinity, buckets: { teen: 0, adult: 0 }
   }
 );
 
 console.log(`Total: ${stats.total}, Min: ${stats.min}, Max: ${stats.max}`);
 console.log(`Buckets: { teen: ${stats.buckets.teen}, adult: ${stats.buckets.adult} }`);
-

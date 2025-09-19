@@ -9,9 +9,15 @@ const companies = [
   { name: "Company Eight", category: "Technology", start: 2011, end: 2016 },
   { name: "Company Nine", category: "Retail", start: 1981, end: 1989 }
 ];
-// Tạo bản sao đã sắp xếp theo end tăng dần
-const sorterdCompanies = [...companies].sort((a, b) => a.end - b.end);
-// Lấy 3 công ty đầu
-const top3 = sorterdCompanies.slice(0, 3);
-// In theo định dạng "Company - EndYear"
-top3.forEach(c => console.log(`${c.name} - ${c.end}`));
+// // Tạo bản sao đã sắp xếp theo end tăng dần
+// const sorterdCompanies = [...companies].sort((a, b) => a.end - b.end);
+// // Lấy 3 công ty đầu
+// const top3 = sorterdCompanies.slice(0, 3);
+// // In theo định dạng "Company - EndYear"
+// top3.forEach(c => console.log(`${c.name} - ${c.end}`));
+
+// // Lọc tất cả công ty thuộc category nào đó
+const findByCategory = (companies, category) => companies.filter(c => c.category === category);
+
+const techCompanies = findByCategory(companies, "Technology");
+console.log((techCompanies));

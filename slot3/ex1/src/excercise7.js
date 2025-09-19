@@ -7,24 +7,17 @@ const companies = [
   { name: "Company Six", category: "Finance", start: 1987, end: 2010 },
   { name: "Company Seven", category: "Auto", start: 1986, end: 1996 },
   { name: "Company Eight", category: "Technology", start: 2011, end: 2016 },
-  { name: "Company Nine", category: "Retail", start: 1981, end: 1989 }
+  { name: "Company Nine", category: "Retail", start: 1981, end: 1989 },
 ];
 
-// Tạo bản sao đã sắp xếp theo end tăng dần
-const sorterdCompanies = [...companies].sort((a, b) => a.end - b.end);
-// Lấy 3 công ty đầu
-const top3 = sorterdCompanies.slice(0, 3);
-// In theo định dạng "Company - EndYear"
-top3.forEach(c => console.log(`${c.name} - ${c.end}`));
+[...companies]
+  .sort((a, b) => a.end - b.end)
+  .slice(0, 3)
+  .forEach(c => console.log(`${c.name} - ${c.end}`));
 
-// Tạo company0New với start += 1 mà không làm đổi companies[0]
 const company0New = { ...companies[0], start: companies[0].start + 1 };
-console.log(companies[0]);   // Không đổi
-console.log(company0New);    // start tăng 1
+console.log(companies[0]);
+console.log(company0New);
 
-// Viết hàm concatAll(...arrays) trả về mảng gộp của mọi mảng truyền vào
-const concatAll = (...arrays) => [].concat(...arrays);
-
-// In kết quả concatAll
-console.log(concatAll([1, 2], [3], [4, 5])); // [1, 2, 3, 4, 5]
-
+const concatAll = (...arrays) => arrays.flat();
+console.log(concatAll([1, 2], [3], [4, 5]));
