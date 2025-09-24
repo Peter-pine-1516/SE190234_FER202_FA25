@@ -11,7 +11,7 @@ const avg = (...nums) => {
     }
     return sum;
   }, 0);
-  return count === 0 ? 0 : +(total / count).toFixed(2);
+  return count === 0 ? 0 : + (total / count).toFixed(2);
 };
 
 // In kết quả
