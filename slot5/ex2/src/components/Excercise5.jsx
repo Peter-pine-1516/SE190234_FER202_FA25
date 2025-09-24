@@ -14,11 +14,11 @@ function Excercise5() {
 
   return (
     <div>
-      <h2>Excercise5 - Danh sách teen lọc (13-19)</h2>
+      <h2>Excercise5</h2>
       <p>
         Danh sách people: {people.map((p) => `${p.name} (${p.age})`).join(", ")}
       </p>
-
+      <p>Danh sách teen lọc trong độ tuổi (13-19)</p>
       <ul>
         {teen.map((str, index) => (
           <li key={index}>{str}</li>

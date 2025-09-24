@@ -28,7 +28,7 @@ function Excercise7() {
     <div>
       <h2>Excercise7</h2>
 
-      <h3>Top 3 công ty kết thúc sớm nhất</h3>
+      <p>Top 3 công ty kết thúc sớm nhất</p>
       <ul>
         {top3.map((c, i) => (
           <li key={i}>
@@ -37,7 +37,7 @@ function Excercise7() {
         ))}
       </ul>
 
-      <h3>Đối chiếu dữ liệu gốc và đã xử lý</h3>
+      <p>Đối chiếu dữ liệu gốc và đã xử lý</p>
       <p>
         Gốc: {companies[0].name} - start {companies[0].start}, end{" "}
         {companies[0].end}
@@ -47,7 +47,7 @@ function Excercise7() {
         {company0New.end}
       </p>
 
-      <h3>Kết quả concatAll</h3>
+      <p>Kết quả concatAll</p>
       <p>{concatResult.join(", ")}</p>
     </div>
   );

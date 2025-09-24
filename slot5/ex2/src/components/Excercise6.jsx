@@ -19,7 +19,17 @@ function Excercise6() {
 
   return (
     <div>
-      <h2>Excercise6 - Top 3 công ty kết thúc sớm nhất</h2>
+      <h2>Excercise6</h2>
+      <p>Danh sách công ty</p>
+      <ul>
+        {companies.map((c, i) => (
+          <li key={i}>
+            {c.name} - {c.category} ({c.start} - {c.end})
+          </li>
+        ))}
+      </ul>
+
+      <p>Top 3 công ty kết thúc sớm nhất</p>
       <ul>
         {top3.map((c, i) => (
           <li key={i}>
