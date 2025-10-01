@@ -1,0 +1,11 @@
+/* Màu nền giống giao diện mẫu */
+.header-bar { background-color: #e7c59a; }
+.hero-wrap { background-color: #e48f39; padding: 12px 0; }
+.hero-img { max-height: 360px; object-fit: cover; }
+
+.footer-wrap { background-color: #e48f39; color: #1b1b1b; }
+.footer-wrap h6 { font-weight: 600; }
+
+.student-photo { max-height: 330px; object-fit: cover; }
+.nav-link { color: #333; }
+.nav-link:hover { color: #000; }
