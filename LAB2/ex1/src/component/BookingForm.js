@@ -1,81 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const ReservationForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    service: '',
-    comment: ''
-  });
-
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    // Form submission logic would go here
-  };
-
-  const serviceOptions = [
-    { value: '', label: 'Select a Service', disabled: true },
-    { value: 'Dine In', label: 'Dine In' },
-    { value: 'Delivery', label: 'Delivery' },
-    { value: 'Take Away', label: 'Take Away' }
-  ];
-
-  const FormField = ({ type, placeholder, required, className, value, onChange, children }) => {
-    const commonProps = {
-      className,
-      style: { backgroundColor: 'white' },
-      value,
-      onChange: (e) => onChange(e.target.value)
-    };
-
-    if (type === 'select') {
-      return (
-        <select {...commonProps} required={required}>
-          {children}
-        </select>
-      );
-    }
-
-    if (type === 'textarea') {
-      return (
-        <textarea 
-          {...commonProps}
-          rows="6"
-          placeholder={placeholder}
-          required={required}
-        />
-      );
-    }
-
-    return (
-      <input 
-        type={type}
-        placeholder={placeholder}
-        required={required}
-        {...commonProps}
-      />
-    );
-  };
-
-  const FormRow = ({ children }) => (
-    <div className="row g-3 mb-3">
-      {children}
-    </div>
-  );
-
-  const FormColumn = ({ children, size = "col-md-4" }) => (
-    <div className={size}>
-      {children}
-    </div>
-  );
-
+function ReservationForm() {
   return (
     <section className="booking bg-dark py-5" id="booking">
       <div className="container text-center">
@@ -84,58 +9,49 @@ const ReservationForm = () => {
         <form 
           className="mx-auto" 
           style={{ maxWidth: '800px' }} 
-          onSubmit={handleFormSubmit}
+          onSubmit={(e) => e.preventDefault()}
         >
-          <FormRow>
-            <FormColumn>
-              <FormField
-                type="text"
-                placeholder="Your Name *"
-                required={true}
+          <div className="row g-3 mb-3">
+            <div className="col-md-4">
+              <input 
+                type="text" 
+                placeholder="Your Name *" 
+                required 
                 className="form-control"
-                value={formData.name}
-                onChange={(value) => handleInputChange('name', value)}
+                style={{ backgroundColor: 'white' }}
               />
-            </FormColumn>
-            <FormColumn>
-              <FormField
-                type="email"
-                placeholder="Your Email *"
-                required={true}
+            </div>
+            <div className="col-md-4">
+              <input 
+                type="email" 
+                placeholder="Your Email *" 
+                required 
                 className="form-control"
-                value={formData.email}
-                onChange={(value) => handleInputChange('email', value)}
+                style={{ backgroundColor: 'white' }}
               />
-            </FormColumn>
-            <FormColumn>
-              <FormField
-                type="select"
-                required={true}
+            </div>
+            <div className="col-md-4">
+              <select 
+                defaultValue="" 
+                required 
                 className="form-select"
-                value={formData.service}
-                onChange={(value) => handleInputChange('service', value)}
+                style={{ backgroundColor: 'white' }}
               >
-                {serviceOptions.map((option, index) => (
-                  <option 
-                    key={index} 
-                    value={option.value} 
-                    disabled={option.disabled}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </FormField>
-            </FormColumn>
-          </FormRow>
+                <option value="" disabled>Select a Service</option>
+                <option>Dine In</option>
+                <option>Delivery</option>
+                <option>Take Away</option>
+              </select>
+            </div>
+          </div>
           
           <div className="mb-3">
-            <FormField
-              type="textarea"
-              placeholder="Please write your comment"
+            <textarea 
+              rows="6" 
+              placeholder="Please write your comment" 
               className="form-control"
-              value={formData.comment}
-              onChange={(value) => handleInputChange('comment', value)}
-            />
+              style={{ backgroundColor: 'white' }}
+            ></textarea>
           </div>
           
           <button type="submit" className="btn btn-warning px-5 py-2 fw-bold">
@@ -145,6 +61,6 @@ const ReservationForm = () => {
       </div>
     </section>
   );
-};
+}
 
 export default ReservationForm;

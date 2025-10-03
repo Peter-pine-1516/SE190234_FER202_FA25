@@ -2,6 +2,5 @@
 **/build/
 **/.env
 *.docx
-/*.txt
 Note.txt
 .vscode/
