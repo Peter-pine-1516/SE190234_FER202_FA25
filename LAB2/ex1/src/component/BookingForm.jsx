@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ReservationForm() {
+export default function BookingForm() {
   return (
     <section className="booking bg-dark py-5" id="booking">
       <div className="container text-center">
@@ -62,5 +62,3 @@ function ReservationForm() {
     </section>
   );
 }
-
-export default ReservationForm;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MenuSection() {
+function MenuCard() {
   return (
     <section className="py-5 bg-dark" id="menu">
       <div className="container">
@@ -124,4 +124,4 @@ function MenuSection() {
   );
 }
 
-export default MenuSection;
+export default MenuCard;

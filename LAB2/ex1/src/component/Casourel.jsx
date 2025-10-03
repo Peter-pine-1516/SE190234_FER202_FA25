@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ImageCarousel() {
+function Carousel() {
   return (
     <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-inner">
@@ -73,4 +73,4 @@ function ImageCarousel() {
   );
 }
 
-export default ImageCarousel;
+export default Carousel;
