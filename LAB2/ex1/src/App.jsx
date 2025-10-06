@@ -3,7 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.css';
 
 import Navbar from './component/NavBar';
-import Carousel from './component/Casourel';
+import Carousel from './component/Carousel';
 import MenuCard from './component/MenuCard';
 import BookingForm from './component/BookingForm';
 
