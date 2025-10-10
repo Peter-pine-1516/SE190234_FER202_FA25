@@ -3,6 +3,7 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import HomeCarousel from "../components/Carousel/HomeCarousel";
 import MovieCard from "../components/Movie/MovieCard";
+import { movies } from "../data/movie";
 
 export default function HomePage() {
   return (
@@ -16,7 +17,7 @@ export default function HomePage() {
             Discover our curated collection of the most popular and critically acclaimed movies.
           </p>
         </div>
-        <MovieCard />
+        <MovieCard movies={movies} />
       </Container>
     </div>
   );

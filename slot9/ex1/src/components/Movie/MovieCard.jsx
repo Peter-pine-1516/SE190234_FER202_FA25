@@ -1,9 +1,8 @@
 import React from 'react';
 import { Card, Row, Col, Button, Badge } from 'react-bootstrap';
-import { movies } from '../../data/movie';
 import './MovieCard.css';
 
-const MovieCard = () => {
+const MovieCard = ({ movies = [] }) => {
   // Function to truncate description
   const truncateDescription = (description, maxLength = 100) => {
     if (description.length <= maxLength) return description;

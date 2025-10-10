@@ -1,0 +1,91 @@
+.App {
+  text-align: center;
+}
+
+/* CSS cho Flight Booking Form */
+.flight-form {
+  text-align: left;
+}
+
+.flight-form .form-label {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.flight-form .form-text {
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.flight-form .form-check {
+  text-align: left;
+}
+
+.flight-form .form-check-label {
+  text-align: left;
+}
+
+.flight-form .input-group-text {
+  text-align: center;
+}
+
+.flight-form .form-select {
+  text-align: left;
+}
+
+.flight-form .form-control {
+  text-align: left;
+}
+
+.flight-form .btn {
+  text-align: center;
+}
+
+/* Đảm bảo các component con cũng căn lề trái */
+.flight-form .form-group {
+  text-align: left;
+}
+
+.flight-form .row {
+  text-align: left;
+}
+
+.flight-form .col {
+  text-align: left;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
