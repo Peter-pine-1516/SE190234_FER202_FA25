@@ -1,0 +1,95 @@
+/* MovieCard Component Styles */
+
+/* Card Container */
+.movie-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #D2B48C;
+  color: #333;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Movie Poster */
+.movie-poster {
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Year Badge Container */
+.year-badge-container {
+  background-color: rgba(0,0,0,0.7);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+/* Card Text */
+.movie-description {
+  color: #555;
+}
+
+.movie-info-text {
+  color: #555;
+}
+
+/* Modal Styles */
+.movie-modal-content {
+  background-color: #D2B48C;
+}
+
+.movie-modal-header {
+  border-bottom: 2px solid #A0826D;
+}
+
+.movie-modal-title {
+  color: #333;
+  font-weight: bold;
+}
+
+.movie-modal-body h6 {
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.movie-modal-body p {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.movie-modal-detail-label {
+  color: #333;
+}
+
+.movie-modal-detail-value {
+  color: #555;
+}
+
+.movie-modal-footer {
+  border-top: 2px solid #A0826D;
+}
+
+/* Toast Notification */
+.custom-toast {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+  font-weight: 600;
+  animation: slideDown 0.3s ease;
+}
+
+.custom-toast.success {
+  background: #28a745;
+}
+
+.custom-toast.info {
+  background: #17a2b8;
+}

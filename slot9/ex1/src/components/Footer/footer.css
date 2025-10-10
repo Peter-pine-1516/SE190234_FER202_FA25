@@ -1,10 +1,10 @@
 /* Footer basic styling */
 footer {
-    background-color: #f8f9fa;
+    background-color: #D2B48C;
     text-align: center;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     margin-top: 2rem;
-    border-top: 1px solid #ddd;
+    border-top: 3px solid #A0826D;
     color: #333;
     font-size: 0.95rem;
 }
@@ -16,11 +16,12 @@ footer p {
 
 /* Style the email link */
 footer a {
-    color: #007bff;
+    color: #5D4E37;
     text-decoration: none;
+    font-weight: 600;
 }
 
 footer a:hover {
     text-decoration: underline;
-    color: #0056b3;
+    color: #3E2F23;
 }

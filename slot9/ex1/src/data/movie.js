@@ -7,7 +7,7 @@ export const movies = [
     poster: "/images/BREAKING_BAD.jpg",
     year: 2008,
     country: "USA",
-    duration: 45,
+    duration: 145,
     genre: ["Drama", "Crime", "Thriller"],
     showtimes: ["9:00 AM", "1:00 PM", "5:00 PM", "9:00 PM"]
   },
@@ -18,7 +18,7 @@ export const movies = [
     poster: "/images/BUNGO_STRAY_DOGS.jpg",
     year: 2016,
     country: "Japan",
-    duration: 24,
+    duration: 124,
     genre: ["Action", "Supernatural", "Mystery"],
     showtimes: ["10:00 AM", "2:00 PM", "6:00 PM", "10:00 PM"]
   },

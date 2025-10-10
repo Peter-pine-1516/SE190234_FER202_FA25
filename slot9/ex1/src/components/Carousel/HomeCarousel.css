@@ -1,0 +1,23 @@
+/* HomeCarousel Component Styles */
+
+/* Carousel Image */
+.carousel-image {
+  height: 35vh;
+  min-height: 750px;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Carousel Caption */
+.carousel-caption {
+  background: rgba(0,0,0,0.6);
+  border-radius: 12px;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Caption Description */
+.carousel-description {
+  font-size: 0.9rem;
+}
