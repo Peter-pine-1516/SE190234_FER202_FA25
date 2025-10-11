@@ -1,21 +1,24 @@
 import React from 'react';
-import { Card, Row, Col, Button, Badge } from 'react-bootstrap';
+import { Card, Button, Badge } from 'react-bootstrap';
 import './MovieCard.css';
 
-const MovieCard = ({ movies = [] }) => {
+const MovieCard = ({ img, title, text, genre, year, country, duration, showtimes, id }) => {
   // Function to truncate description
   const truncateDescription = (description, maxLength = 100) => {
+    if (!description) return '';
     if (description.length <= maxLength) return description;
     return description.substring(0, maxLength) + '...';
   };
 
   // Handle Add to Favourites - Toggle (Thêm/Xóa) - KHÔNG DÙNG useState
-  const handleAddToFavorites = (movie, buttonElement) => {
+  const handleAddToFavorites = (buttonElement) => {
+    const movie = { id, img, title, text, genre, year, country, duration, showtimes };
+    
     // Lấy dữ liệu từ localStorage
     let favorites = JSON.parse(localStorage.getItem('movieFavorites') || '[]');
     
     // Kiểm tra xem phim đã có trong danh sách chưa
-    const existsIndex = favorites.findIndex(fav => fav.id === movie.id);
+    const existsIndex = favorites.findIndex(fav => fav.id === id);
     
     if (existsIndex === -1) {
       // Thêm phim vào danh sách
@@ -29,7 +32,7 @@ const MovieCard = ({ movies = [] }) => {
       }
       
       // Hiển thị thông báo đẹp hơn
-      showCustomToast(`✓ Added "${movie.title}" to favourites!`, 'success');
+      showCustomToast(`✓ Added "${title}" to favourites!`, 'success');
     } else {
       // Xóa phim khỏi danh sách
       favorites.splice(existsIndex, 1);
@@ -42,14 +45,14 @@ const MovieCard = ({ movies = [] }) => {
       }
       
       // Hiển thị thông báo
-      showCustomToast(`Removed "${movie.title}" from favourites`, 'info');
+      showCustomToast(`Removed "${title}" from favourites`, 'info');
     }
   };
 
   // Kiểm tra phim có trong favourites không
-  const isInFavorites = (movieId) => {
+  const isInFavorites = () => {
     const favorites = JSON.parse(localStorage.getItem('movieFavorites') || '[]');
-    return favorites.some(fav => fav.id === movieId);
+    return favorites.some(fav => fav.id === id);
   };
 
   // Custom Toast notification (không dùng useState)
@@ -70,9 +73,9 @@ const MovieCard = ({ movies = [] }) => {
   };
 
   // Handle View Details - Dùng React Bootstrap Modal KHÔNG DÙNG useState
-  const handleViewDetails = (movie) => {
-    // Tạo modal element trực tiếp trong DOM
-    const modalId = `modal-${movie.id}`;
+  const handleViewDetails = () => {
+    const movie = { id, img, title, text, genre, year, country, duration, showtimes };
+    const modalId = `modal-${id}`;
     let modalElement = document.getElementById(modalId);
     
     if (!modalElement) {
@@ -82,37 +85,37 @@ const MovieCard = ({ movies = [] }) => {
           <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content movie-modal-content">
               <div class="modal-header movie-modal-header">
-                <h5 class="modal-title movie-modal-title">${movie.title}</h5>
+                <h5 class="modal-title movie-modal-title">${title}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <img src="${process.env.PUBLIC_URL || ''}${movie.poster}" 
-                         alt="${movie.title}" 
+                    <img src="${process.env.PUBLIC_URL || ''}${img}" 
+                         alt="${title}" 
                          class="img-fluid rounded"
                          style="width: 100%; height: auto;">
                   </div>
                   <div class="col-md-8">
                     <h6 class="movie-modal-body h6">Movie Details</h6>
-                    <p class="movie-modal-body p">${movie.description}</p>
+                    <p class="movie-modal-body p">${text}</p>
                     
                     <div class="row mb-3">
                       <div class="col-6">
-                        <strong class="movie-modal-detail-label">Year:</strong> <span class="movie-modal-detail-value">${movie.year}</span>
+                        <strong class="movie-modal-detail-label">Year:</strong> <span class="movie-modal-detail-value">${year}</span>
                       </div>
                       <div class="col-6">
-                        <strong class="movie-modal-detail-label">Country:</strong> <span class="movie-modal-detail-value">${movie.country}</span>
+                        <strong class="movie-modal-detail-label">Country:</strong> <span class="movie-modal-detail-value">${country}</span>
                       </div>
                       <div class="col-6 mt-2">
-                        <strong class="movie-modal-detail-label">Duration:</strong> <span class="movie-modal-detail-value">${movie.duration} minutes</span>
+                        <strong class="movie-modal-detail-label">Duration:</strong> <span class="movie-modal-detail-value">${duration} minutes</span>
                       </div>
                       <div class="col-6 mt-2">
                         <strong class="movie-modal-detail-label">Genre:</strong>
                         <div class="mt-1">
-                          ${movie.genre.map(genre => 
-                            `<span class="badge bg-dark me-1">${genre}</span>`
-                          ).join('')}
+                          ${Array.isArray(genre) ? genre.map(g => 
+                            `<span class="badge bg-dark me-1">${g}</span>`
+                          ).join('') : ''}
                         </div>
                       </div>
                     </div>
@@ -120,16 +123,16 @@ const MovieCard = ({ movies = [] }) => {
                     <div>
                       <strong class="movie-modal-detail-label">Showtimes:</strong>
                       <div class="mt-2">
-                        ${movie.showtimes.map(showtime => 
+                        ${Array.isArray(showtimes) ? showtimes.map(showtime => 
                           `<span class="badge bg-success me-2 mb-1">${showtime}</span>`
-                        ).join('')}
+                        ).join('') : ''}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer movie-modal-footer">
-                <button type="button" class="btn btn-secondary" id="close-btn-${movie.id}">Close</button>
+                <button type="button" class="btn btn-secondary" id="close-btn-${id}">Close</button>
               </div>
             </div>
           </div>
@@ -146,7 +149,7 @@ const MovieCard = ({ movies = [] }) => {
     // Tạo backdrop
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop fade show';
-    backdrop.id = 'backdrop-' + movie.id;
+    backdrop.id = 'backdrop-' + id;
     document.body.appendChild(backdrop);
     
     // Handle close function
@@ -154,7 +157,7 @@ const MovieCard = ({ movies = [] }) => {
       modalElement.style.display = 'none';
       modalElement.classList.remove('show');
       document.body.classList.remove('modal-open');
-      const backdropEl = document.getElementById('backdrop-' + movie.id);
+      const backdropEl = document.getElementById('backdrop-' + id);
       if (backdropEl) {
         document.body.removeChild(backdropEl);
       }
@@ -172,7 +175,7 @@ const MovieCard = ({ movies = [] }) => {
       }
       
       // Close on Close button click
-      const footerCloseBtn = modalElement.querySelector('#close-btn-' + movie.id);
+      const footerCloseBtn = modalElement.querySelector('#close-btn-' + id);
       if (footerCloseBtn) {
         footerCloseBtn.onclick = closeModal;
       }
@@ -197,90 +200,79 @@ const MovieCard = ({ movies = [] }) => {
   };
 
   return (
-    <>
-      {/* Responsive Grid Layout */}
-      <Row className="g-4">
-        {movies.map((movie) => (
-          <Col key={movie.id} xs={12} sm={6} lg={4}>
-            <Card 
-              className="h-100 shadow-sm border-0 movie-card"
-            >
-              {/* Movie Poster */}
-              <div className="position-relative">
-                <Card.Img 
-                  variant="top" 
-                  src={process.env.PUBLIC_URL + movie.poster}
-                  alt={`${movie.title} poster`}
-                  className="movie-poster"
-                />
-                <div className="position-absolute top-0 end-0 m-2 year-badge-container">
-                  <Badge bg="secondary" className="text-white">
-                    {movie.year}
-                  </Badge>
-                </div>
-              </div>
-              
-              {/* Card Body */}
-              <Card.Body className="d-flex flex-column">
-                <Card.Title className="h5 mb-2">
-                  {movie.title}
-                </Card.Title>
-                
-                <Card.Text className="mb-3 flex-grow-1 movie-description">
-                  {truncateDescription(movie.description)}
-                </Card.Text>
-                
-                {/* Movie Info */}
-                <div className="mb-3">
-                  <div className="d-flex flex-wrap gap-1 mb-2">
-                    {movie.genre.map((genre, index) => (
-                      <Badge key={index} bg="dark" className="me-1">
-                        {genre}
-                      </Badge>
-                    ))}
-                  </div>
-                  
-                  <div className="d-flex justify-content-between align-items-center small movie-info-text">
-                    <span>📍 {movie.country}</span>
-                    <span>⏱️ {movie.duration} min</span>
-                  </div>
-                </div>
-                
-                {/* Action Buttons */}
-                <div className="d-grid gap-2">
-                  <Button 
-                    variant={isInFavorites(movie.id) ? "success" : "outline-dark"}
-                    size="sm"
-                    className="mb-1"
-                    onClick={(e) => handleAddToFavorites(movie, e.currentTarget)}
-                  >
-                    {isInFavorites(movie.id) ? (
-                      <>
-                        <i className="bi bi-heart-fill me-1"></i>
-                        Added to Favourites
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-heart me-1"></i>
-                        Add to Favourites
-                      </>
-                    )}
-                  </Button>
-                  
-                  <Button 
-                    variant="dark" 
-                    size="sm"
-                    onClick={() => handleViewDetails(movie)}
-                  >
-                    View Details
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </>
+    <Card className="h-100 shadow-sm border-0 movie-card">
+      {/* Movie Poster */}
+      <div className="position-relative">
+        <Card.Img 
+          variant="top" 
+          src={process.env.PUBLIC_URL + img}
+          alt={`${title} poster`}
+          className="movie-poster"
+        />
+        <div className="position-absolute top-0 end-0 m-2 year-badge-container">
+          <Badge bg="secondary" className="text-white">
+            {year}
+          </Badge>
+        </div>
+      </div>
+      
+      {/* Card Body */}
+      <Card.Body className="d-flex flex-column">
+        <Card.Title className="h5 mb-2">
+          {title}
+        </Card.Title>
+        
+        <Card.Text className="mb-3 flex-grow-1 movie-description">
+          {truncateDescription(text)}
+        </Card.Text>
+        
+        {/* Movie Info */}
+        <div className="mb-3">
+          <div className="d-flex flex-wrap gap-1 mb-2">
+            {Array.isArray(genre) && genre.map((g, index) => (
+              <Badge key={index} bg="dark" className="me-1">
+                {g}
+              </Badge>
+            ))}
+          </div>
+          
+          <div className="d-flex justify-content-between align-items-center small movie-info-text">
+            <span>📍 {country}</span>
+            <span>⏱️ {duration} min</span>
+          </div>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="d-grid gap-2">
+          <Button 
+            variant={isInFavorites() ? "success" : "outline-dark"}
+            size="sm"
+            className="mb-1"
+            onClick={(e) => handleAddToFavorites(e.currentTarget)}
+          >
+            {isInFavorites() ? (
+              <>
+                <i className="bi bi-heart-fill me-1"></i>
+                Added to Favourites
+              </>
+            ) : (
+              <>
+                <i className="bi bi-heart me-1"></i>
+                Add to Favourites
+              </>
+            )}
+          </Button>
+          
+          <Button 
+            variant="dark" 
+            size="sm"
+            onClick={() => handleViewDetails()}
+          >
+            View Details
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 

@@ -31,6 +31,39 @@ export const carouselMovies = [
       year: 2002,
       country: 'USA',
       duration: 121
+    },
+    {
+      id: 4,
+      title: 'Avatar',
+      description:
+        'A paraplegic Marine dispatched to Pandora becomes torn between following orders and protecting the alien world he feels is his home.',
+      poster: '/images/AVATAR.jpg',
+      genre: 'Sci-Fi Adventure',
+      year: 2009,
+      country: 'USA',
+      duration: 162
+    },
+    {
+      id: 5,
+      title: 'Suits',
+      description:
+        'A brilliant college dropout working with one of New York\'s best lawyers despite never attending law school.',
+      poster: '/images/SUITS.jpg',
+      genre: 'Legal Drama',
+      year: 2011,
+      country: 'USA',
+      duration: 42
+    },
+    {
+      id: 6,
+      title: 'The Godfather',
+      description:
+        'An epic tale of family, loyalty, and power in the criminal underworld as a crime dynasty transfers control.',
+      poster: '/images/THE_GODFATHER.jpg',
+      genre: 'Crime Drama',
+      year: 1972,
+      country: 'USA',
+      duration: 175
     }
   ];
   
