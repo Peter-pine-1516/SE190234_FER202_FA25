@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Card, Tabs, Tab, ProgressBar, Button, Row, Col } from 'react-bootstrap';
+import NavBar from '../components/NavBar/NavBar';
 import AboutForm from '../components/Account/AboutForm';
 import AccountForm from '../components/Account/AccountForm';
 import AddressForm from '../components/Account/AddressForm';
@@ -10,7 +11,9 @@ const AccountPage = () => {
   const progress = currentStep === 1 ? 33 : currentStep === 2 ? 67 : 100;
 
   return (
-    <Container className="py-5">
+    <>
+      <NavBar />
+      <Container className="py-5">
       <Card className="shadow-lg">
         <Card.Header className="bg-primary text-white">
           <h3 className="mb-0 text-center">
@@ -138,6 +141,7 @@ const AccountPage = () => {
         </Card.Body>
       </Card>
     </Container>
+    </>
   );
 };
 
