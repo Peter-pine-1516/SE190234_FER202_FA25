@@ -240,29 +240,27 @@ function RegisterForm() {
 
             {/* Modal hiển thị thông tin đã submit */}
             <Modal show={showModal} onHide={handleCloseModal} centered>
-                <Modal.Content className="modal-content">
-                    <Modal.Header className="modal-header" closeButton>
-                        <Modal.Title className="modal-title">Đăng Ký Thành Công!</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="modal-body">
-                        <Card className="card">
-                            <Card.Header className="card-header">
-                                <h5>Thông Tin Đã Đăng Ký</h5>
-                            </Card.Header>
-                            <Card.Body className="card-body">
-                                <p><strong>Username:</strong> {formData.username}</p>
-                                <p><strong>Email:</strong> {formData.email}</p>
-                                <p><strong>Password:</strong> {'*'.repeat(formData.password.length)}</p>
-                                <p><strong>Confirm Password:</strong> {'*'.repeat(formData.confirmPassword.length)}</p>
-                            </Card.Body>
-                        </Card>
-                    </Modal.Body>
-                    <Modal.Footer className="modal-footer">
-                        <Button variant="primary" onClick={handleCloseModal} className="btn btn-primary">
-                            Đóng
-                        </Button>
-                    </Modal.Footer>
-                </Modal.Content>
+                <Modal.Header className="modal-header" closeButton>
+                    <Modal.Title className="modal-title">Đăng Ký Thành Công!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="modal-body">
+                    <Card className="card">
+                        <Card.Header className="card-header">
+                            <h5>Thông Tin Đã Đăng Ký</h5>
+                        </Card.Header>
+                        <Card.Body className="card-body">
+                            <p><strong>Username:</strong> {formData.username}</p>
+                            <p><strong>Email:</strong> {formData.email}</p>
+                            <p><strong>Password:</strong> {'*'.repeat(formData.password.length)}</p>
+                            <p><strong>Confirm Password:</strong> {'*'.repeat(formData.confirmPassword.length)}</p>
+                        </Card.Body>
+                    </Card>
+                </Modal.Body>
+                <Modal.Footer className="modal-footer">
+                    <Button variant="primary" onClick={handleCloseModal} className="btn btn-primary">
+                        Đóng
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </div>
     );
