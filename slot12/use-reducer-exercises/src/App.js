@@ -3,12 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CounterComponent from './components/CounterComponent';
 import LightSwitch from './components/LightSwitch';
 import LoginForm from './components/LoginForm';
-import LoginForm2 from './components/LoginForm2';
-import SearchItem from './components/SearchItem';
-import SearchAccount from './components/SearchAccount';
-import RegisterForm from './components/RegisterForm';
-import TeacherForm from './components/TeacherForm';
-
+import SignUpForm from './components/SignUpForm';
+import QuestionBank from './components/QuestionBank';
 
 function App() {
   return (
@@ -16,11 +12,8 @@ function App() {
       <CounterComponent />
       <LightSwitch />
       <LoginForm />
-      <LoginForm2 />
-      <SearchItem />
-      <SearchAccount />
-      <RegisterForm />
-      <TeacherForm />
+      <SignUpForm />
+      <QuestionBank />
     </div>
   );
 }

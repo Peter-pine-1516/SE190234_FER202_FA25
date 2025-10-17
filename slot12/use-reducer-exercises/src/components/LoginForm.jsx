@@ -1,63 +1,94 @@
 //LoginForm component is used to render a login form with username and password fields, including validation and error handling.
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { Form, Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function LoginForm({ onSubmit }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
+// Định nghĩa các action types
+const FORM_ACTIONS = {
+  SET_USERNAME: 'SET_USERNAME',
+  SET_PASSWORD: 'SET_PASSWORD',
+  SET_ERRORS: 'SET_ERRORS',
+  SET_MODAL: 'SET_MODAL',
+  RESET_FORM: 'RESET_FORM'
+};
 
-  //useState hiển thị modal
-  const [showModal, setShowModal] = useState(false);
+// Reducer function để xử lý các action
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case FORM_ACTIONS.SET_USERNAME:
+      return { ...state, username: action.payload };
+    case FORM_ACTIONS.SET_PASSWORD:
+      return { ...state, password: action.payload };
+    case FORM_ACTIONS.SET_ERRORS:
+      return { ...state, errors: action.payload };
+    case FORM_ACTIONS.SET_MODAL:
+      return { ...state, showModal: action.payload };
+    case FORM_ACTIONS.RESET_FORM:
+      return {
+        username: '',
+        password: '',
+        errors: {},
+        showModal: false
+      };
+    default:
+      return state;
+  }
+};
+
+function LoginForm({ onSubmit }) {
+  // Khởi tạo state với useReducer
+  const [state, dispatch] = useReducer(formReducer, {
+    username: '',
+    password: '',
+    errors: {},
+    showModal: false
+  });
 
   //Xử lý thay đổi input
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+    dispatch({ type: FORM_ACTIONS.SET_USERNAME, payload: e.target.value });
     if (e.target.value.trim() === '') {
-      setErrors((prev) => ({ ...prev, username: 'Username is required' }));
-    } else {
-      setErrors((prev) => {
-        const { username, ...rest } = prev;
-        return rest;
+      dispatch({ 
+        type: FORM_ACTIONS.SET_ERRORS, 
+        payload: { ...state.errors, username: 'Username is required' } 
       });
+    } else {
+      const { username, ...rest } = state.errors;
+      dispatch({ type: FORM_ACTIONS.SET_ERRORS, payload: rest });
     }
   }
   //Xử lý thay đổi password
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    dispatch({ type: FORM_ACTIONS.SET_PASSWORD, payload: e.target.value });
     if (e.target.value.trim() === '') {
-      setErrors((prev) => ({ ...prev, password: 'Password is required' }));
-    } else {
-      setErrors((prev) => {
-        const { password, ...rest } = prev;
-        return rest;
+      dispatch({ 
+        type: FORM_ACTIONS.SET_ERRORS, 
+        payload: { ...state.errors, password: 'Password is required' } 
       });
+    } else {
+      const { password, ...rest } = state.errors;
+      dispatch({ type: FORM_ACTIONS.SET_ERRORS, payload: rest });
     }
   }
   //Xử lý submit form
   const handleSubmit = (e) => {
     e.preventDefault(); // Ngăn chặn reload trang
     const newErrors = {};
-    if (username.trim() === '') {
+    if (state.username.trim() === '') {
       newErrors.username = 'Username is required';
     }
-    if (password.trim() === '') {
+    if (state.password.trim() === '') {
       newErrors.password = 'Password is required';
     }
-    setErrors(newErrors);
+    dispatch({ type: FORM_ACTIONS.SET_ERRORS, payload: newErrors });
     if (Object.keys(newErrors).length === 0) {
-      //onSubmit({ username, password });
-      setShowModal(true); // Hiển thị modal khi không có lỗi
-
+      //onSubmit({ username: state.username, password: state.password });
+      dispatch({ type: FORM_ACTIONS.SET_MODAL, payload: true }); // Hiển thị modal khi không có lỗi
     }
   }
   //Đóng modal
   const handleCloseModal = () => {
-    setShowModal(false);
-    setUsername('');
-    setPassword('');
-    setErrors({});
+    dispatch({ type: FORM_ACTIONS.RESET_FORM });
   }
 
   return (
@@ -74,13 +105,13 @@ function LoginForm({ onSubmit }) {
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
-                    value={username}
+                    value={state.username}
                     onChange={handleUsernameChange}
-                    isInvalid={!!errors.username}
+                    isInvalid={!!state.errors.username}
                     placeholder="Enter username"
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.username}
+                    {state.errors.username}
                   </Form.Control.Feedback>
                 </Form.Group>
 
@@ -88,13 +119,13 @@ function LoginForm({ onSubmit }) {
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
-                    value={password}
+                    value={state.password}
                     onChange={handlePasswordChange}
-                    isInvalid={!!errors.password}
+                    isInvalid={!!state.errors.password}
                     placeholder="Enter password"
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.password}
+                    {state.errors.password}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Button variant="primary" type="submit" className="w-100">
@@ -106,12 +137,12 @@ function LoginForm({ onSubmit }) {
         </Col>
       </Row>
       {/* Modal hiển thị khi đăng nhập thành công */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
+      <Modal show={state.showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Login Successful</Modal.Title>
+          <Modal.Title>Login Successful (useReducer)</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Welcome, {username}!</p>
+          <p>Welcome, {state.username}!</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
