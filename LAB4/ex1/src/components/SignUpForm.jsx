@@ -1,5 +1,7 @@
 import React, { useReducer, useMemo } from 'react';
-import { Form, Button, Card, Container, Row, Col, Modal, Toast } from 'react-bootstrap';
+import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
+import ModalComponent from './ModalComponent';
+import ToastComponent from './ToastComponent';
 
 // Định nghĩa các action types
 const FORM_ACTIONS = {
@@ -206,39 +208,27 @@ function SignUpForm() {
 </Col>
       </Row>
       {/* Toast thông báo submit thành công */}
-      <div className="position-fixed top-0 end-0 p-3" style={{ zIndex: 9999 }}>
-        <Toast
-          show={state.showToast}
-          onClose={() => dispatch({ type: FORM_ACTIONS.SET_TOAST, payload: false })}
-          delay={2000}
-          autohide
-        >
-          <Toast.Header>
-            <strong className="me-auto text-success">Success</strong>
-          </Toast.Header>
-          <Toast.Body>Submitted successfully!</Toast.Body>
-        </Toast>
-      </div>
+      <ToastComponent
+        show={state.showToast}
+        onClose={() => dispatch({ type: FORM_ACTIONS.SET_TOAST, payload: false })}
+        title="Success"
+        message="Submitted successfully!"
+        variant="success"
+        delay={2000}
+        autohide={true}
+      />
       {/* Modal hiển thị thông tin đã submit */}
-      <Modal show={state.showModal} onHide={handleCancel} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Sign Up Info (useReducer)</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Card>
-            <Card.Body>
-              <p><strong>Username:</strong> {state.form.username}</p>
-              <p><strong>Email:</strong> {state.form.email}</p>
-              <p><strong>Password:</strong> {state.form.password}</p>
-            </Card.Body>
-          </Card>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancel}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalComponent
+        show={state.showModal}
+        onHide={handleCancel}
+        title="Sign Up Info (useReducer)"
+        userInfo={{
+          username: state.form.username,
+          email: state.form.email,
+          password: state.form.password
+        }}
+        type="userInfo"
+      />
     </Container>
   );
 }

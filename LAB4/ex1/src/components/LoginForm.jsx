@@ -1,6 +1,8 @@
 //LoginForm component is used to render a login form with username and password fields, including validation and error handling.
 import { useReducer } from 'react';
-import { Form, Button, Card, Container, Row, Col, Modal } from 'react-bootstrap';
+import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
+import ModalComponent from './ModalComponent';
+import ToastComponent from './ToastComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Định nghĩa các action types
@@ -9,6 +11,7 @@ const FORM_ACTIONS = {
   SET_PASSWORD: 'SET_PASSWORD',
   SET_ERRORS: 'SET_ERRORS',
   SET_MODAL: 'SET_MODAL',
+  SET_TOAST: 'SET_TOAST',
   RESET_FORM: 'RESET_FORM'
 };
 
@@ -23,12 +26,15 @@ const formReducer = (state, action) => {
       return { ...state, errors: action.payload };
     case FORM_ACTIONS.SET_MODAL:
       return { ...state, showModal: action.payload };
+    case FORM_ACTIONS.SET_TOAST:
+      return { ...state, showToast: action.payload };
     case FORM_ACTIONS.RESET_FORM:
       return {
         username: '',
         password: '',
         errors: {},
-        showModal: false
+        showModal: false,
+        showToast: false
       };
     default:
       return state;
@@ -41,7 +47,8 @@ function LoginForm({ onSubmit }) {
     username: '',
     password: '',
     errors: {},
-    showModal: false
+    showModal: false,
+    showToast: false
   });
 
   //Xử lý thay đổi input
@@ -83,7 +90,8 @@ function LoginForm({ onSubmit }) {
     dispatch({ type: FORM_ACTIONS.SET_ERRORS, payload: newErrors });
     if (Object.keys(newErrors).length === 0) {
       //onSubmit({ username: state.username, password: state.password });
-      dispatch({ type: FORM_ACTIONS.SET_MODAL, payload: true }); // Hiển thị modal khi không có lỗi
+      dispatch({ type: FORM_ACTIONS.SET_TOAST, payload: true }); // Hiển thị toast trước
+      dispatch({ type: FORM_ACTIONS.SET_MODAL, payload: true }); // Hiển thị modal sau
     }
   }
   //Đóng modal
@@ -136,20 +144,25 @@ function LoginForm({ onSubmit }) {
           </Card>
         </Col>
       </Row>
+      {/* Toast thông báo đăng nhập thành công */}
+      <ToastComponent
+        show={state.showToast}
+        onClose={() => dispatch({ type: FORM_ACTIONS.SET_TOAST, payload: false })}
+        title="Login Success"
+        message="Welcome back!"
+        variant="success"
+        delay={2000}
+        autohide={true}
+      />
+      
       {/* Modal hiển thị khi đăng nhập thành công */}
-      <Modal show={state.showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Login Successful (useReducer)</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Welcome, {state.username}!</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalComponent
+        show={state.showModal}
+        onHide={handleCloseModal}
+        title="Login Successful (useReducer)"
+        content={`Welcome, ${state.username}!`}
+        type="success"
+      />
     </Container>
   );
 }
