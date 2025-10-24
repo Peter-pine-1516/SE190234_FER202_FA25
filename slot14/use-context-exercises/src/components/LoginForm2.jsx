@@ -1,5 +1,4 @@
 import React, { useReducer } from 'react';
-import { Form, Button, Card, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import ConfirmModal from './ConfirmModal';
 import { useToast } from './ToastSignin';
@@ -189,108 +188,175 @@ function LoginForm2() {
 
     return (
         <>
-            <Container className="mt-5">
-                <Row className="justify-content-md-center">
-                    <Col xs={12} md={6}>
-                        <Card>
-                            <Card.Header>
-                                <h3 className="text-center mb-0">
-                                    Login with AuthContext
-                                </h3>
-                            </Card.Header>
-                            <Card.Body>
-                                {/* Hiển thị lỗi từ AuthContext */}
-                                {error && (
-                                    <Alert
-                                        variant="danger"
-                                        className="mb-3"
-                                        onClose={clearError}
-                                        dismissible
-                                    >
-                                        {error}
-                                    </Alert>
-                                )}
+            <div style={{ 
+                maxWidth: '400px', 
+                margin: '40px auto', 
+                padding: '20px',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                backgroundColor: '#fff',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+            }}>
+                <h3 style={{ 
+                    textAlign: 'center', 
+                    margin: '0 0 20px 0', 
+                    fontSize: '20px',
+                    color: '#333'
+                }}>
+                    User Authentication
+                </h3>
 
-                                <Form onSubmit={handleSubmit} noValidate>
-                                    <Form.Group controlId="identifier" className="mb-3">
-                                        <Form.Label>Username or Email</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="identifier"
-                                            value={formState.identifier}
-                                            onChange={handleChange}
-                                            isInvalid={!!formState.errors.identifier}
-                                            placeholder="Enter username or email"
-                                            disabled={loading}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            {formState.errors.identifier}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
+                {/* Hiển thị lỗi từ AuthContext */}
+                {error && (
+                    <div style={{
+                        padding: '10px',
+                        marginBottom: '15px',
+                        backgroundColor: '#f8d7da',
+                        border: '1px solid #f5c6cb',
+                        borderRadius: '4px',
+                        color: '#721c24'
+                    }}>
+                        {error}
+                        <button
+                            onClick={clearError}
+                            style={{
+                                float: 'right',
+                                background: 'none',
+                                border: 'none',
+                                fontSize: '16px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            ×
+                        </button>
+                    </div>
+                )}
 
-                                    <Form.Group controlId="password" className="mb-3">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            name="password"
-                                            value={formState.password}
-                                            onChange={handleChange}
-                                            isInvalid={!!formState.errors.password}
-                                            placeholder="Enter password"
-                                            disabled={loading}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            {formState.errors.password}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
+                <form onSubmit={handleSubmit} noValidate>
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ 
+                            display: 'block', 
+                            marginBottom: '5px', 
+                            fontWeight: '500',
+                            color: '#555'
+                        }}>
+                            Username or Email
+                        </label>
+                        <input
+                            type="text"
+                            name="identifier"
+                            value={formState.identifier}
+                            onChange={handleChange}
+                            placeholder="Enter username or email"
+                            disabled={loading}
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                border: `1px solid ${formState.errors.identifier ? '#dc3545' : '#ddd'}`,
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                boxSizing: 'border-box'
+                            }}
+                        />
+                        {formState.errors.identifier && (
+                            <div style={{ 
+                                color: '#dc3545', 
+                                fontSize: '12px', 
+                                marginTop: '5px' 
+                            }}>
+                                {formState.errors.identifier}
+                            </div>
+                        )}
+                    </div>
 
-                                    <div style={{ display: 'flex', gap: 8 }}>
-                                        <Button
-                                            variant="primary"
-                                            type="submit"
-                                            style={{ flex: 1 }}
-                                            disabled={loading}
-                                        >
-                                            {loading ? (
-                                                <>
-                                                    <Spinner
-                                                        as="span"
-                                                        animation="border"
-                                                        size="sm"
-                                                        role="status"
-                                                        aria-hidden="true"
-                                                        className="me-2"
-                                                    />
-                                                    Logging in...
-                                                </>
-                                            ) : (
-                                                'Login'
-                                            )}
-                                        </Button>
-                                        <Button
-                                            variant="secondary"
-                                            type="button"
-                                            style={{ flex: 1 }}
-                                            onClick={handleReset}
-                                            disabled={loading}
-                                        >
-                                            Reset
-                                        </Button>
-                                    </div>
+                    <div style={{ marginBottom: '20px' }}>
+                        <label style={{ 
+                            display: 'block', 
+                            marginBottom: '5px', 
+                            fontWeight: '500',
+                            color: '#555'
+                        }}>
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formState.password}
+                            onChange={handleChange}
+                            placeholder="Enter password"
+                            disabled={loading}
+                            style={{
+                                width: '100%',
+                                padding: '10px',
+                                border: `1px solid ${formState.errors.password ? '#dc3545' : '#ddd'}`,
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                boxSizing: 'border-box'
+                            }}
+                        />
+                        {formState.errors.password && (
+                            <div style={{ 
+                                color: '#dc3545', 
+                                fontSize: '12px', 
+                                marginTop: '5px' 
+                            }}>
+                                {formState.errors.password}
+                            </div>
+                        )}
+                    </div>
 
-                                    <div className="mt-3 text-center">
-                                        <small className="text-muted">
-                                            Demo accounts:<br />
-                                            Admin: <strong>admin</strong> / <strong>123456</strong><br />
-                                            User: <strong>user1</strong> / <strong>123456</strong> (access denied)<br />
-                                            Locked: <strong>user2</strong> / <strong>123456</strong> (locked account)
-                                        </small>
-                                    </div>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
+                    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            style={{
+                                flex: 1,
+                                padding: '12px',
+                                backgroundColor: loading ? '#6c757d' : '#007bff',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                fontSize: '14px',
+                                fontWeight: '500'
+                            }}
+                        >
+                            {loading ? 'Logging in...' : 'Login'}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleReset}
+                            disabled={loading}
+                            style={{
+                                flex: 1,
+                                padding: '12px',
+                                backgroundColor: '#6c757d',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                fontSize: '14px',
+                                fontWeight: '500'
+                            }}
+                        >
+                            Reset
+                        </button>
+                    </div>
+
+                    <div style={{ 
+                        padding: '10px',
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        color: '#6c757d',
+                        textAlign: 'center'
+                    }}>
+                        Demo Accounts:<br />
+                        Admin: <strong>admin</strong> / <strong>123456</strong><br />
+                        User: <strong>user1</strong> / <strong>123456</strong> (access denied)<br />
+                        Locked: <strong>user2</strong> / <strong>123456</strong> (locked account)
+                    </div>
+                </form>
 
                 {/* Modal thông báo thành công */}
                 <ConfirmModal
@@ -299,11 +365,11 @@ function LoginForm2() {
                     message={`Welcome, ${user?.username}! You have successfully logged in as ${user?.role}.`}
                     onConfirm={handleCloseSuccessModal}
                     onHide={handleCloseSuccessModal}
-                    confirmText="Tiếp tục"
-                    cancelText="Đóng"
+                    confirmText="Continue"
+                    cancelText="Close"
                     variant="success"
                 />
-            </Container>
+            </div>
 
             {/* Toast notifications */}
             <ToastComponent />
