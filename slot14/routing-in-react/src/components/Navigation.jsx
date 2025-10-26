@@ -75,6 +75,18 @@ function Navigation() {
               </NavLink>
             </li>
 
+            {/* Dashboard Link */}
+            <li className="nav-item">
+              <NavLink 
+                className={({ isActive }) => 
+                  `nav-link ${isActive ? 'active' : ''}`
+                }
+                to="/dashboard"
+              >
+                Dashboard
+              </NavLink>
+            </li>
+
           </ul>
         </div>
       </div>

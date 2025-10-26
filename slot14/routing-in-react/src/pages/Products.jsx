@@ -1,34 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Products() {
   const products = [
     {
-      id: 1,
+      id: 101,
       name: "Laptop Gaming",
       price: "25,000,000 VNĐ",
       description: "Laptop gaming hiệu năng cao với card đồ họa rời",
       image: "/LaptopGaming.jpg"
     },
     {
-      id: 2,
+      id: 102,
       name: "Smartphone",
       price: "15,000,000 VNĐ",
       description: "Điện thoại thông minh với camera chất lượng cao",
       image: "/Phone.jpg"
     },
     {
-      id: 3,
+      id: 103,
       name: "Tai Nghe Bluetooth",
       price: "2,500,000 VNĐ",
       description: "Tai nghe không dây với chất lượng âm thanh tuyệt vời",
       image: "/EarPhone.jpg"
-    },
-    {
-      id: 4,
-      name: "Smart Watch",
-      price: "5,000,000 VNĐ",
-      description: "Đồng hồ thông minh với nhiều tính năng hữu ích",
-      image: "/SmartWatch.jpg"
     }
   ];
 
@@ -58,9 +52,9 @@ function Products() {
                       <p className="card-text">
                         <strong className="text-primary">{product.price}</strong>
                       </p>
-                      <button className="btn btn-primary w-100">
-                        Thêm Vào Giỏ Hàng
-                      </button>
+                      <Link to={`/san-pham/${product.id}`} className="btn btn-primary w-100">
+                        Xem Chi Tiết
+                      </Link>
                     </div>
                   </div>
                 </div>
