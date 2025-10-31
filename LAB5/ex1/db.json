@@ -109,6 +109,16 @@
       "duration": 30,
       "year": 2025,
       "country": "Việt Nam"
+    },
+    {
+      "avatar": "/images/sushi-1761899490783-543dba6c3cef.jpeg",
+      "title": "Sushi",
+      "description": "Sushi master chief",
+      "genreId": 6,
+      "duration": 6,
+      "year": 2015,
+      "country": "Việt Nam",
+      "id": "LXnCmEC"
     }
   ],
   "accounts": [

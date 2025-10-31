@@ -1,4 +1,5 @@
 const jsonServer = require("json-server");
+const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
@@ -10,6 +11,8 @@ const middlewares = jsonServer.defaults({
 });
 
 server.use(middlewares);
+server.use(express.json({ limit: "10mb" }));
+server.use(express.urlencoded({ extended: true, limit: "10mb" }));
 server.use(jsonServer.bodyParser);
 
 const ensureImagesDir = () => {
@@ -28,7 +31,7 @@ const slugify = (value) =>
     .replace(/^-+|-+$/g, "")
     .slice(0, 50);
 
-server.post("/upload-image", (req, res) => {
+const handleImageUpload = (req, res) => {
   try {
     const { dataUrl, fileName, title } = req.body || {};
 
@@ -72,7 +75,10 @@ server.post("/upload-image", (req, res) => {
       .status(500)
       .json({ message: "Lỗi máy chủ khi lưu ảnh", detail: error.message });
   }
-});
+};
+
+server.post("/upload-image", handleImageUpload);
+server.post("/image", handleImageUpload);
 
 server.use(router);
 
