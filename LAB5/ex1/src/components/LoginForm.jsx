@@ -1,194 +1,125 @@
 // src/components/LoginForm.jsx
-import React, { useReducer, useEffect } from 'react';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Form, Button, Container, Alert, Modal } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import '../css/LoginForm.css';
 
-// 1. Khởi tạo trạng thái ban đầu cho form
-const initialFormState = {
-    identifier: '', // username hoặc email
-    password: '',
-    errors: {},
-    validated: false
+const ALERT_VARIANT_BY_CODE = {
+    IDENTIFIER_NOT_FOUND: 'danger',
+    WRONG_PASSWORD: 'danger',
+    ACCOUNT_LOCKED: 'warning',
+    NETWORK_ERROR: 'danger',
 };
 
-// 2. Định nghĩa reducer cho form
-function formReducer(state, action) {
-    switch (action.type) {
-        case 'SET_FIELD':
-            return {
-                ...state,
-                [action.field]: action.value
-            };
-        case 'SET_ERROR':
-            return {
-                ...state,
-                errors: { ...state.errors, [action.field]: action.message }
-            };
-        case 'CLEAR_ERROR': {
-            const { [action.field]: removed, ...restErrors } = state.errors;
-            return {
-                ...state,
-                errors: restErrors
-            };
-        }
-        case 'SET_ERRORS':
-            return {
-                ...state,
-                errors: action.errors,
-                validated: true
-            };
-        case 'RESET_FORM':
-            return initialFormState;
-        default:
-            return state;
-    }
-}
-
 function LoginForm({ onLoginSuccess }) {
-    // 3. Sử dụng useReducer cho form state
-    const [formState, dispatch] = useReducer(formReducer, initialFormState);
+    const [identifier, setIdentifier] = useState('');
+    const [password, setPassword] = useState('');
+    const [alerts, setAlerts] = useState([]);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [successAccount, setSuccessAccount] = useState(null);
 
-    // 4. Sử dụng AuthContext
-    const { login, loading, error, clearError } = useAuth();
+    const { login, loading, clearError } = useAuth();
 
-    // 5. Validation helpers
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmail = (value) => value.includes('@');
-
-    // 6. Clear auth error khi component mount
     useEffect(() => {
         clearError();
     }, [clearError]);
 
-    // 7. Xử lý thay đổi input
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-
-        // Cập nhật giá trị field
-        dispatch({ type: 'SET_FIELD', field: name, value });
-
-        // Clear auth error khi user nhập
-        clearError();
-
-        // Clear field error
-        if (formState.errors[name]) {
-            dispatch({ type: 'CLEAR_ERROR', field: name });
-        }
+    const pushAlert = (variant, message) => {
+        setAlerts([{ id: Date.now(), variant, message }]);
     };
 
-    // 8. Validation form
-    const validateForm = () => {
-        const errors = {};
-
-        if (!formState.identifier.trim()) {
-            errors.identifier = 'Username or Email is required.';
-        } else if (isEmail(formState.identifier) && !emailRe.test(formState.identifier)) {
-            errors.identifier = 'Email is invalid format.';
-        }
-
-        if (!formState.password.trim()) {
-            errors.password = 'Password is required.';
-        }
-
-        return errors;
-    };
-
-    // 9. Xử lý submit form
     const handleSubmit = async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        
+
         clearError();
+        setAlerts([]);
 
-        // Validate form
-        const validationErrors = validateForm();
-        dispatch({ type: 'SET_ERRORS', errors: validationErrors });
+        const trimmedIdentifier = identifier.trim();
+        const trimmedPassword = password.trim();
 
-        if (Object.keys(validationErrors).length > 0) {
+        if (!trimmedIdentifier && !trimmedPassword) {
+            pushAlert('warning', 'Vui lòng nhập thông tin đăng nhập.');
             return;
         }
 
-        try {
-            // Gọi login từ AuthContext
-            const result = await login(
-                formState.identifier.trim(),
-                formState.password
-            );
+        if (!trimmedIdentifier) {
+            pushAlert('warning', 'Vui lòng nhập username hoặc email.');
+            return;
+        }
 
-            if (result?.ok) {
-                // Đăng nhập thành công - gọi callback để chuyển hướng
-                if (onLoginSuccess) {
-                    onLoginSuccess(result.account);
-                }
-            }
-        } catch (err) {
-            console.error('Login error:', err);
+        if (!trimmedPassword) {
+            pushAlert('warning', 'Vui lòng nhập mật khẩu.');
+            return;
+        }
+
+        const result = await login(trimmedIdentifier, trimmedPassword);
+
+        if (result?.ok) {
+            setSuccessAccount(result.account);
+            setShowSuccessModal(true);
+        } else {
+            const variant = ALERT_VARIANT_BY_CODE[result?.code] || 'danger';
+            const message = result?.message || 'Đăng nhập thất bại.';
+            pushAlert(variant, message);
         }
     };
 
-    // 10. Xử lý reset form
     const handleReset = () => {
-        dispatch({ type: 'RESET_FORM' });
+        setIdentifier('');
+        setPassword('');
+        setAlerts([]);
         clearError();
     };
 
+    const handleConfirmSuccess = () => {
+        setShowSuccessModal(false);
+        setAlerts([]);
+        if (onLoginSuccess && successAccount) {
+            onLoginSuccess(successAccount);
+        }
+    };
+
     return (
-        <Container className="mt-5" style={{ maxWidth: '500px' }}>
-            <div style={{
-                padding: '30px',
-                border: '1px solid #ddd',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}>
-                <h3 style={{ 
-                    textAlign: 'center', 
-                    marginBottom: '30px',
-                    color: '#333'
-                }}>
-                    Đăng Nhập
-                </h3>
+        <Container className="mt-5 login-form-container">
+            <div className="login-form-card">
+                <h3 className="login-form-title">Đăng Nhập</h3>
 
-                {/* Hiển thị lỗi từ AuthContext */}
-                {error && (
-                    <Alert variant="danger" onClose={clearError} dismissible>
-                        {error}
+                {alerts.map((alert) => (
+                    <Alert
+                        key={alert.id}
+                        variant={alert.variant}
+                        onClose={() => setAlerts([])}
+                        dismissible
+                        className="login-form-alert"
+                    >
+                        {alert.message}
                     </Alert>
-                )}
+                ))}
 
-                <Form noValidate validated={formState.validated} onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
-                        <Form.Label>Username hoặc Email</Form.Label>
+                        <Form.Label className="login-form-label">Username hoặc Email</Form.Label>
                         <Form.Control
                             type="text"
-                            name="identifier"
-                            value={formState.identifier}
-                            onChange={handleChange}
+                            value={identifier}
+                            onChange={(event) => setIdentifier(event.target.value)}
                             placeholder="Nhập username hoặc email"
                             disabled={loading}
-                            isInvalid={!!formState.errors.identifier}
-                            required
+                            className="login-form-input"
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {formState.errors.identifier}
-                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label className="login-form-label">Password</Form.Label>
                         <Form.Control
                             type="password"
-                            name="password"
-                            value={formState.password}
-                            onChange={handleChange}
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
                             placeholder="Nhập password"
                             disabled={loading}
-                            isInvalid={!!formState.errors.password}
-                            required
+                            className="login-form-input"
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {formState.errors.password}
-                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <div className="d-flex gap-2 mb-3">
@@ -211,7 +142,7 @@ function LoginForm({ onLoginSuccess }) {
                         </Button>
                     </div>
 
-                    <Alert variant="info" className="mt-3" style={{ fontSize: '12px' }}>
+                    <Alert variant="info" className="mt-3 login-form-demo-alert">
                         <strong>Tài khoản demo:</strong><br />
                         Admin: <strong>admin</strong> / <strong>123456</strong><br />
                         User: <strong>user1</strong> / <strong>123456</strong><br />
@@ -219,6 +150,32 @@ function LoginForm({ onLoginSuccess }) {
                     </Alert>
                 </Form>
             </div>
+
+            <Modal
+                show={showSuccessModal}
+                onHide={() => {}}
+                backdrop="static"
+                keyboard={false}
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title>✅ Đăng nhập thành công!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Chào mừng bạn trở lại, <strong>{successAccount?.username}</strong>!</p>
+                    <p className="mb-0">
+                        <small className="text-muted">
+                            Email: {successAccount?.email}<br />
+                            Vai trò: {successAccount?.role}
+                        </small>
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleConfirmSuccess}>
+                        Xác nhận
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 }

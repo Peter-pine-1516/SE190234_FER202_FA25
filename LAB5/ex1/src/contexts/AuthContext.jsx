@@ -1,9 +1,11 @@
 // src/contexts/AuthContext.jsx
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext, useEffect } from 'react';
 import movieApi from '../api/movieAPI';
 
 // 1. Tạo Context
 const AuthContext = createContext();
+
+const AUTH_STORAGE_KEY = 'lab5_ex1_auth_user';
 
 // 2. Khởi tạo trạng thái ban đầu
 const initialState = { 
@@ -58,70 +60,108 @@ function authReducer(state, action) {
 
 // 4. Tạo Provider Component
 export function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, initialState, (initState) => {
+    if (typeof window === 'undefined') {
+      return initState;
+    }
+
+    try {
+      const storedUser = localStorage.getItem(AUTH_STORAGE_KEY);
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        return {
+          ...initState,
+          user: parsedUser,
+          isAuthenticated: true,
+        };
+      }
+    } catch (error) {
+      console.warn('Không thể đọc thông tin đăng nhập đã lưu:', error);
+    }
+
+    return initState;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    if (state.isAuthenticated && state.user) {
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(state.user));
+    } else {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
+  }, [state.isAuthenticated, state.user]);
 
   // 6. Hàm đăng nhập - đọc từ db.json qua API
   async function login(identifier, password) {
-    // Bắt đầu quá trình đăng nhập
     dispatch({ type: 'LOGIN_START' });
 
     try {
-      // Đọc danh sách accounts từ db.json
       const response = await movieApi.get("/accounts");
-      const accounts = response.data;
+      const accounts = response.data || [];
 
-      const isEmail = identifier.includes('@');
-      
-      // Tìm kiếm tài khoản theo email hoặc username
-      const account = accounts.find(acc => {
+      const trimmedIdentifier = identifier.trim();
+      const isEmail = trimmedIdentifier.includes('@');
+
+      const accountByIdentifier = accounts.find((acc) =>
+        isEmail ? acc.email === trimmedIdentifier : acc.username === trimmedIdentifier
+      );
+
+      const accountByPassword = accounts.find((acc) => acc.password === password);
+
+      if (!accountByIdentifier) {
+        let message;
         if (isEmail) {
-          return acc.email === identifier && acc.password === password;
+          message = 'Email không tồn tại.';
         } else {
-          return acc.username === identifier && acc.password === password;
+          message = accountByPassword ? 'Tài khoản không tồn tại.' : 'Tài khoản không tồn tại.';
         }
-      });
 
-      if (!account) {
-        // Không tìm thấy tài khoản hoặc sai mật khẩu
-        dispatch({ 
-          type: 'LOGIN_FAILURE', 
-          payload: 'Invalid credentials.' 
-        });
-        return { ok: false, message: 'Invalid credentials.' };
+        dispatch({ type: 'LOGIN_FAILURE', payload: message });
+        return { ok: false, code: 'IDENTIFIER_NOT_FOUND', message };
       }
 
-      // Kiểm tra trạng thái tài khoản
-      if (account.status === 'locked') {
-        dispatch({ 
-          type: 'LOGIN_FAILURE', 
-          payload: 'Account is locked. Please contact administrator.' 
-        });
-        return { ok: false, message: 'Account is locked. Please contact administrator.' };
+      if (accountByIdentifier.status === 'locked') {
+        const message = 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên.';
+        dispatch({ type: 'LOGIN_FAILURE', payload: message });
+        return { ok: false, code: 'ACCOUNT_LOCKED', message };
       }
 
-      // Đăng nhập thành công
+      if (accountByIdentifier.password !== password) {
+        const message = 'Mật khẩu sai.';
+        dispatch({ type: 'LOGIN_FAILURE', payload: message });
+        return { ok: false, code: 'WRONG_PASSWORD', message };
+      }
+
       const userInfo = {
-        id: account.id,
-        username: account.username,
-        email: account.email,
-        role: account.role,
-        status: account.status
+        id: accountByIdentifier.id,
+        username: accountByIdentifier.username,
+        email: accountByIdentifier.email,
+        role: accountByIdentifier.role,
+        status: accountByIdentifier.status,
       };
 
       dispatch({ type: 'LOGIN_SUCCESS', payload: userInfo });
       return { ok: true, account: userInfo };
     } catch (error) {
       console.error("Lỗi khi đăng nhập:", error);
-      dispatch({ 
-        type: 'LOGIN_FAILURE', 
-        payload: 'Error connecting to server. Please try again.' 
-      });
-      return { ok: false, message: 'Error connecting to server. Please try again.' };
+      const message = 'Lỗi kết nối server. Vui lòng thử lại.';
+      dispatch({ type: 'LOGIN_FAILURE', payload: message });
+      return {
+        ok: false,
+        code: 'NETWORK_ERROR',
+        message,
+      };
     }
   }
 
   // 7. Hàm đăng xuất
   function logout() { 
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
     dispatch({ type: 'LOGOUT' }); 
   }
 

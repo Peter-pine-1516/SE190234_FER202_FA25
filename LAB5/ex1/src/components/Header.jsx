@@ -20,9 +20,9 @@ function Header() {
                         {isAuthenticated && user ? (
                             <>
                                 <Navbar.Text className="me-3">
-                                    <strong>Xin chào, {user.username}!</strong>
+                                    <strong>Welcome, {user.username}!</strong>
                                     <br />
-                                    <small className="text-muted">
+                                    <small className="text-light">
                                         {user.email} ({user.role})
                                     </small>
                                 </Navbar.Text>
