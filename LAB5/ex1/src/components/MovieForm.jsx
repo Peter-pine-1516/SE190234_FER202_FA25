@@ -314,7 +314,7 @@ const MovieForm = ({ isAdmin = false }) => {
 
     try {
       const titleFallback = currentMovie.title || selectedFile.name || "movie";
-      const response = await movieApi.post("/upload-image", {
+      const response = await movieApi.post("/image", {
         fileName: selectedFile.name,
         dataUrl: pendingImageDataUrl,
         title: titleFallback,

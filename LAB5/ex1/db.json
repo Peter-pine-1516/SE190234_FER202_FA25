@@ -101,14 +101,14 @@
       "duration": 102
     },
     {
-      "id": "8",
-      "title": "Hidden Truth",
-      "description": "A reporter unravels a conspiracy that powerful people will do anything to keep buried.",
-      "avatar": "/images/movie8.jpg",
-      "genreId": 7,
-      "year": 2022,
-      "country": "Germany",
-      "duration": 115
+      "id": "cb80",
+      "avatar": "https://i.pinimg.com/736x/87/8c/04/878c046fba7834663f57d7325cc229bf.jpg",
+      "title": "The Last Flower",
+      "description": "Giữa khu vườn đã tàn phai, đóa hoa cuối cùng vẫn kiên cường bám trụ, run rẩy yếu ớt trong cơn gió lạnh đầu mùa. Sắc màu của nó, dù sắp úa tàn, vẫn là vệt sáng rực rỡ duy nhất níu giữ chút hơi ấm cuối cùng của mùa hạ.",
+      "genreId": 2,
+      "duration": 30,
+      "year": 2025,
+      "country": "Việt Nam"
     }
   ],
   "accounts": [

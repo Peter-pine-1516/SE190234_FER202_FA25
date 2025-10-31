@@ -10,12 +10,6 @@ function FilterBar({ onFilterChange }) {
     const [durationFilter, setDurationFilter] = useState('');
     const [sortOrder, setSortOrder] = useState('');
 
-    // Tạo genre map
-    const genreMap = genres.reduce((map, genre) => {
-        map[genre.id] = genre.name;
-        return map;
-    }, {});
-
     // Xử lý thay đổi filter
     useEffect(() => {
         let filtered = [...movies];
@@ -36,7 +30,6 @@ function FilterBar({ onFilterChange }) {
 
         // Lọc theo thời lượng
         if (durationFilter) {
-            const duration = parseInt(durationFilter);
             switch (durationFilter) {
                 case '60':
                     filtered = filtered.filter(movie => movie.duration <= 60);
@@ -128,10 +121,10 @@ function FilterBar({ onFilterChange }) {
                                 onChange={(e) => setDurationFilter(e.target.value)}
                             >
                                 <option value="">Tất cả</option>
-                                <option value="60">≤ 60 phút</option>
+                                <option value="60">Dưới 60 phút</option>
                                 <option value="90">61-90 phút</option>
                                 <option value="120">91-120 phút</option>
-                                <option value="120+">> 120 phút</option>
+                                <option value="120+">Trên 120 phút</option>
                             </Form.Select>
                         </Form.Group>
                     </Col>
