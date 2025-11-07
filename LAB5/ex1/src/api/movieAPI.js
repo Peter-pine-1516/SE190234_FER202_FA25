@@ -9,3 +9,4 @@ const movieApi = axios.create({
 });
 
 export default movieApi;
+
