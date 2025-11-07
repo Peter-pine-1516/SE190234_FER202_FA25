@@ -1,0 +1,19 @@
+/* LoginForm.css - Styles for LoginForm component */
+
+/* Error Alert */
+.login-error-alert {
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    color: #842029;
+}
+
+/* Form Buttons Container */
+.login-buttons-container {
+    display: flex;
+    gap: 8px;
+}
+
+.login-button {
+    flex: 1;
+}
+
