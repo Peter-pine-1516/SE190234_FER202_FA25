@@ -1,0 +1,71 @@
+/* UserTable.css - Styles for UserTable component */
+
+/* Error Alert */
+.error-alert {
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    color: #842029;
+}
+
+/* User Details Modal */
+.user-details-modal-header {
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.user-details-modal-title {
+    color: #000;
+}
+
+.user-details-modal-body {
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+}
+
+.user-details-avatar-section {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 20px;
+}
+
+.user-details-avatar-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #dee2e6;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.user-details-avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 40px;
+    font-weight: bold;
+    color: #000;
+}
+
+.user-details-field {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 15px;
+}
+
+.user-details-modal-footer {
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+}
+
+.user-details-close-btn {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+

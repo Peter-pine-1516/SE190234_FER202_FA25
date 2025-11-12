@@ -1,0 +1,18 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+.table thead {
+  background-color: #f1f5f9;
+}
+
+.table tbody tr td {
+  vertical-align: middle;
+}

@@ -7,6 +7,7 @@ import DashboardPage from '../pages/DashboardPage';
 import AddPaymentPage from '../pages/AddPaymentPage';
 import PaymentDetailsPage from '../pages/PaymentDetailsPage';
 import EditPaymentPage from '../pages/EditPaymentPage'; 
+
 // Component để bảo vệ các route cần xác thực
 const PrivateRoute = ({ children }) => {
     // Lấy trực tiếp isAuthenticated từ useAuth()
@@ -15,6 +16,7 @@ const PrivateRoute = ({ children }) => {
     // Nếu chưa đăng nhập, chuyển hướng đến /login
     return isAuthenticated ? children : <Navigate to="/login" />;
 };
+
 const AppRoutes = () => {
     return (
         <Router>
@@ -35,6 +37,7 @@ const AppRoutes = () => {
                         </PrivateRoute>
                     } 
                 />
+                
                 {/* 4. Payment Routes */}
                 <Route 
                     path="/payments/add" 
@@ -67,4 +70,5 @@ const AppRoutes = () => {
         </Router>
     );
 };
+
 export default AppRoutes;

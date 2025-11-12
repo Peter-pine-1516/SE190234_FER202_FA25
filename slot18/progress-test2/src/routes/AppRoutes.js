@@ -1,0 +1,90 @@
+// //AppRoutes.js định nghĩa các route cho ứng dụng sử dụng React Router
+// import React from 'react';
+// import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+// import { useAuth } from '../contexts/AuthContext'; // Import useAuth
+// import LoginPage from '../pages/LoginPage';
+// import DashboardPage from '../pages/DashboardPage';
+// import AddExpensesPage from '../pages/AddExpensesPage'; 
+// import EditexpensesPage from '../pages/EditExpensesPage';
+
+
+// // Component để bảo vệ các route cần xác thực
+// const PrivateRoute = ({ children }) => {
+//     // Lấy trực tiếp isAuthenticated từ useAuth()
+//     const { isAuthenticated } = useAuth(); 
+    
+//     // Nếu chưa đăng nhập, chuyển hướng đến /login
+//     return isAuthenticated ? children : <Navigate to="/login" replace />;
+// };
+
+// // Component để redirect dựa trên authentication status
+// const HomeRedirect = () => {
+//     const { isAuthenticated } = useAuth();
+//     return isAuthenticated ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />;
+// };
+
+// const AppRoutes = () => {
+//     return (
+//         <Router>
+//             <Routes>
+//                 {/* 1. Trang mặc định: Chuyển hướng đến /home nếu đã đăng nhập, ngược lại là /login */}
+//                 <Route path="/" element={<HomeRedirect />} />
+                
+//                 {/* 2. Trang Đăng nhập */}
+//                 <Route path="/login" element={<LoginPage />} />
+                
+//                 {/* 3. Định nghĩa route bảo vệ cho Trang Chủ/Dashboard (yêu cầu: /home ) */}
+//                 <Route 
+//                     path="/home" 
+//                     element={
+//                         <PrivateRoute>
+//                             {/* Component Trang chủ/Dashboard */}
+//                             <DashboardPage /> 
+//                         </PrivateRoute>
+//                     } 
+//                 />
+                
+//                 {/* 4. expenses Routes */}
+//                 <Route 
+//                     path="/expenses/add" 
+//                     element={
+//                         <PrivateRoute>
+//                             <AddExpensesPage />
+//                         </PrivateRoute>
+//                     } 
+//                 />
+//                 <Route 
+//                     path="/expenses/:id" 
+//                     element={
+//                         <PrivateRoute>
+//                             <expensesDetailsPage />
+//                         </PrivateRoute>
+//                     } 
+//                 />
+//                 <Route 
+//                     path="/expenses/:id/edit" 
+//                     element={
+//                         <PrivateRoute>
+//                             <EditexpensesPage />
+//                         </PrivateRoute>
+//                     } 
+//                 />
+                
+//                 {/* 5. User Management Route
+//                 <Route 
+//                     path="/users" 
+//                     element={
+//                         <PrivateRoute>
+//                             <UserListPage />
+//                         </PrivateRoute>
+//                     } 
+//                 /> */}
+                
+//                 {/* 6. Xử lý tất cả các đường dẫn không xác định: Chuyển hướng đến /home */}
+//                 <Route path="*" element={<Navigate to="/home" replace />} />
+//             </Routes>
+//         </Router>
+//     );
+// };
+
+// export default AppRoutes;

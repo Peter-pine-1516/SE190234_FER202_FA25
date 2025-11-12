@@ -1,16 +1,20 @@
 import React, { useState, useMemo } from 'react';
+
 import { Container, Card, Button } from 'react-bootstrap';
+
 import NavigationHeader from '../components/NavigationHeader';
+
 import FilterBar from '../components/FilterBar';
 
 import PaymentTable from '../components/PaymentTable';
+
 import { useNavigate } from 'react-router-dom';
 import { usePayment } from '../contexts/PaymentContext';
 
 const DashboardPage = () => {
     const navigate = useNavigate();
     const { payments, isLoading } = usePayment();
-
+    
     // Filter states
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSemester, setSelectedSemester] = useState('');
@@ -121,7 +125,7 @@ const DashboardPage = () => {
                         <PaymentTable filteredPayments={filteredPayments} />
                     </Card.Body>
                 </Card>
-            </Container>
+            </Container>    
         </>
     );
 };

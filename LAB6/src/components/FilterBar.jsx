@@ -1,17 +1,17 @@
 import React from 'react';
 import { Card, Form, Row, Col } from 'react-bootstrap';
 
-const FilterBar = ({
-    searchTerm,
-    selectedSemester,
-    selectedCourse,
-    sortBy,
-    semesters,
-    courses,
-    onSearchChange,
-    onSemesterChange,
-    onCourseChange,
-    onSortChange
+const FilterBar = ({ 
+    searchTerm, 
+    selectedSemester, 
+    selectedCourse, 
+    sortBy, 
+    semesters, 
+    courses, 
+    onSearchChange, 
+    onSemesterChange, 
+    onCourseChange, 
+    onSortChange 
 }) => {
     return (
         <Card className="mb-4 shadow-sm">
@@ -23,20 +23,20 @@ const FilterBar = ({
                         <Col xs={12} lg={4}>
                             <Form.Group>
                                 <Form.Label>Tìm kiếm (Semester/Course)</Form.Label>
-                                <Form.Control
-                                    type="text"
+                                <Form.Control 
+                                    type="text" 
                                     placeholder="Search by semester or course name"
                                     value={searchTerm}
                                     onChange={(e) => onSearchChange(e.target.value)}
                                 />
                             </Form.Group>
                         </Col>
-
+                        
                         {/* Filter by Semester  */}
                         <Col xs={6} md={4} lg={2}>
                             <Form.Group>
                                 <Form.Label>Lọc theo Semester</Form.Label>
-                                <Form.Select
+                                <Form.Select 
                                     value={selectedSemester}
                                     onChange={(e) => onSemesterChange(e.target.value)}
                                 >
@@ -54,7 +54,7 @@ const FilterBar = ({
                         <Col xs={6} md={4} lg={2}>
                             <Form.Group>
                                 <Form.Label>Lọc theo Course</Form.Label>
-                                <Form.Select
+                                <Form.Select 
                                     value={selectedCourse}
                                     onChange={(e) => onCourseChange(e.target.value)}
                                 >
@@ -67,12 +67,12 @@ const FilterBar = ({
                                 </Form.Select>
                             </Form.Group>
                         </Col>
-
+                        
                         {/* Sorting */}
                         <Col xs={12} md={4} lg={4}>
                             <Form.Group>
                                 <Form.Label>Sắp xếp theo:</Form.Label>
-                                <Form.Select
+                                <Form.Select 
                                     value={sortBy}
                                     onChange={(e) => onSortChange(e.target.value)}
                                 >

@@ -1,16 +1,27 @@
-import React, { useState, useMemo } from 'react';
-import { Container, Card, Button } from 'react-bootstrap';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Container, Card, Button, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 import NavigationHeader from '../components/NavigationHeader';
 import FilterBar from '../components/FilterBar';
-
 import PaymentTable from '../components/PaymentTable';
-import { useNavigate } from 'react-router-dom';
-import { usePayment } from '../contexts/PaymentContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchPayments, selectAllPayments, selectPaymentsState } from '../features/payments/paymentsSlice';
 
 const DashboardPage = () => {
     const navigate = useNavigate();
-    const { payments, isLoading } = usePayment();
+    const dispatch = useAppDispatch();
+    const { user } = useAuth();
+    const payments = useAppSelector(selectAllPayments);
+    const { isLoading, error } = useAppSelector(selectPaymentsState);
 
+    useEffect(() => {
+        if (user?.id) {
+            dispatch(fetchPayments(user.id));
+        }
+    }, [dispatch, user?.id]);
+    
     // Filter states
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSemester, setSelectedSemester] = useState('');
@@ -118,10 +129,15 @@ const DashboardPage = () => {
                         </Button>
                     </Card.Header>
                     <Card.Body>
+                        {error && (
+                            <Alert variant="danger" className="mb-3">
+                                {error}
+                            </Alert>
+                        )}
                         <PaymentTable filteredPayments={filteredPayments} />
                     </Card.Body>
                 </Card>
-            </Container>
+            </Container>    
         </>
     );
 };
