@@ -1,4 +1,4 @@
-  {
+{
   "users": [
     {
       "id": "1",
@@ -15,12 +15,11 @@
   ],
   "expenses": [
     {
-      "id": "1",
-      "userId": "1",
       "name": "Lunch",
-      "amount": "85000",
+      "amount": 89000,
       "category": "Food",
-      "date": "2025-10-02"
+      "date": "2025-10-02",
+      "id": "1"
     },
     {
       "id": "2",
@@ -61,6 +60,14 @@
       "amount": 250000,
       "category": "Utilities",
       "date": "2025-10-03"
+    },
+    {
+      "id": "b1fe",
+      "name": "Dinner",
+      "amount": 98000,
+      "category": "Food",
+      "date": "2025-11-22",
+      "userId": "1"
     }
   ]
 }
